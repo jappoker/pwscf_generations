@@ -1,7 +1,7 @@
 import re
 import os
 import subprocess
-from latticepredict import return_popt
+# from latticepredict import return_popt
 
 
 class tmcolors:
@@ -101,17 +101,17 @@ class generator:
             f.write(infile)
             f.close()
     
-    def vc_input(self,filename = "input.dat"):
-        fulldir = os.path.join(self.foldername, filename)
-        infile = "-10 0 50 100 150 200 250 300 320 340 360 380 400 500 600 700 800 900 1000 1100 1200 1300 1400 1500\n"
-        infile += return_popt(self.T) +"\n"
-        infile += "  1.000000000000000   0.000000000000000   0.000000000000000\n"
-        infile += " -0.500000000000000   0.8660254037844386  0.000000000000000\n"
-        infile += "  0.000000000000000   0.000000000000000   1.604000000000000\n"
+    # def vc_input(self,filename = "input.dat"):
+    #     fulldir = os.path.join(self.foldername, filename)
+    #     infile = "-10 0 50 100 150 200 250 300 320 340 360 380 400 500 600 700 800 900 1000 1100 1200 1300 1400 1500\n"
+    #     infile += return_popt(self.T) +"\n"
+    #     infile += "  1.000000000000000   0.000000000000000   0.000000000000000\n"
+    #     infile += " -0.500000000000000   0.8660254037844386  0.000000000000000\n"
+    #     infile += "  0.000000000000000   0.000000000000000   1.604000000000000\n"
 
-        with open(fulldir,"w") as f:
-            f.write(infile)
-            f.close
+    #     with open(fulldir,"w") as f:
+    #         f.write(infile)
+    #         f.close
 
 
 
