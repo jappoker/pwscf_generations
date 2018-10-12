@@ -64,7 +64,7 @@ class check_folder:
         self.vc_file = self.get_vc_file
         self.scf_file = self.get_scf_file
         self.ph_folder = self.get_ph_folder
-        self.sc_folder = "%s/%s/scf_%s.0"%(scratch_folder,this_scratch,self.P)
+        self.sc_folder = "%s/%s/%s/scf_%s.0"%(scratch_folder,this_scratch,self.T,self.P)
 
     
     @property
