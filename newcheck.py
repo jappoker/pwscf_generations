@@ -247,8 +247,7 @@ class check_folder:
                 else:
                     if filesize == 0:
                         full = "dyn %s" % color("%2.0f"%switch).blue
-                        tmp_folder = "%s/%s"(
-                            self.sc_folder, "_ph0/hcpFe.phsave")
+                        tmp_folder = "%s/%s"%(self.sc_folder, "_ph0/hcpFe.phsave")
                         
                         tmp_list = os.listdir(tmp_folder)
                         dynmat = 0
