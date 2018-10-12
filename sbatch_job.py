@@ -57,7 +57,7 @@ def sbatch_file(arguments):
     return folder_name, file_name
 
 def sbatch_it(folder_name, file_name):
-    subprocess.call("cd %s ;sbatch %s" %
+    subprocess.call("cd %s ;qsub %s" %
                     (folder_name, file_name), shell=True)
     # subprocess.call("cd %s ;cat %s" % (folder_name, file_name), shell=True)
     return None

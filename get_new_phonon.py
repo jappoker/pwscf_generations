@@ -20,6 +20,8 @@ class scfph:
         self.T = T
         self.P = P
 
+        
+
         self.T_folder = "%s"%T
         self.vc_folder = "vc_%s.0"%self.P
         self.vc_fdir = os.path.join(self.T_folder,self.vc_folder)
@@ -36,16 +38,16 @@ class scfph:
         self.scf_fdir = os.path.join(self.T_folder,self.scf_folder)
         self.scf_input_name = "scf_%s.0.in"%P
         self.scf_indir = os.path.join(self.scf_fdir, self.scf_input_name)
+        self.scratch_fdir = os.path.join(scratch_folder, this_scratch)
+        self.scratch_dir = "%s/%s/%s" % (self.scratch_fdir,
+                                         self.T_folder, self.scf_folder)
         self.scf_input, 
-
 
         self.ph_fdir = self.scf_fdir
         self.ph_input_name = "ph_%s.0.in" % self.P
         self.ph_indir = os.path.join(self.ph_fdir, self.ph_input_name)
         self.ph_input, 
-        self.scratch_fdir = os.path.join(scratch_folder,this_scratch)
-        self.scratch_dir = os.path.join(self.scratch_fdir, self.scf_fdir)
-
+        
     @property
     def vc_input(self):
         '''
@@ -121,7 +123,11 @@ class scfph:
         return alat , coord
 
     def make_tmp_folder(self):
-        subprocess.call("FILE=%s;if [-f $FILE];then;echo 'File $FILE exists.';else;echo 'File $FILE does not exist.';mkdir $FILE;fi"%(self.scratch_dir), shell=True)
+        scratch_tfolder = "%s/%s"%(self.scratch_fdir,self.T_folder)
+        subprocess.call("[ -f %s ] && echo 'Found' || mkdir %s " %
+                        (scratch_tfolder, scratch_tfolder), shell=True)
+        subprocess.call("[ -f %s ] && echo 'Found' || mkdir %s "% (self.scratch_dir,self.scratch_dir), shell=True)
+        
     
     @property
     def scf_input(self):
@@ -209,7 +215,7 @@ def make_sbatch_files(prefix, pressure_range, scfph, run_type):
     job_file_name = "%s.sh" % job_name
 
     core_per_job = int(24 / len(pressure_range))
-    core_per_job =  32
+    core_per_job =  32*2
 
     if run_type == "scf":
         runx = "pw"
@@ -226,18 +232,18 @@ def make_sbatch_files(prefix, pressure_range, scfph, run_type):
 
     job_text = "#!/bin/sh\n"
     job_text += "#PBS -j oe\n"
-    job_text += "#PBS -l nodes=1:ppn=32:xe\n"
+    job_text += "#PBS -l nodes=12:ppn=32:xe\n"
     job_text += "#PBS -q normal\n"
     job_text += "#PBS -N %s\n" % job_name
-    job_text += "#PBS -l walltime=24:00:00\n"
+    job_text += "#PBS -l walltime=48:00:00\n"
     job_text += "#PBS -m bea\n"
     job_text += "#PBS -M jz2907@columbia.edu\n"
     # job_text += "module load intel-parallel-studio/2017\n"
-    job_text += "cd /u/sciteam/zhuang1/work/epaw1/aaaaa/%s"%scfph.T_folder
-    job_text += "export OMP_NUM_THREADS = 2"
+    job_text += "cd /u/sciteam/zhuang1/work/epaw1/aaaaa/%s\n"%scfph.T_folder
+    job_text += "export OMP_NUM_THREADS = 2\n"
     job_text += "for i in %s; do\n" % pressure_text
     job_text += "cd scf_$i\n"
-    job_text += "aprun -n %s %s.x -in %s_$i.in > %s_$i.out \n" % (
+    job_text += "aprun -n %s -N 32 %s.x -in %s_$i.in > %s_$i.out  & \n" % (
         core_per_job, runx, run_type, run_type)
     job_text += "sleep 3\ncd ..\ndone\nwait"
 
