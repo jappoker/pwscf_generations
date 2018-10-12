@@ -64,7 +64,7 @@ class check_folder:
         self.vc_file = self.get_vc_file
         self.scf_file = self.get_scf_file
         self.ph_folder = self.get_ph_folder
-        self.tmp_folder = "%s/%s/%s"%(scratch_folder,this_scratch,self.ph_folder)
+        self.sc_folder = "%s/%s/scf_%s.0"%(scratch_folder,this_scratch,self.P)
 
     
     @property
@@ -247,8 +247,9 @@ class check_folder:
                 else:
                     if filesize == 0:
                         full = "dyn %s" % color("%2.0f"%switch).blue
-                        tmp_folder = os.path.join(
-                            self.tmp_folder, "/_ph0/hcpFe.phsave")
+                        tmp_folder = "%s/%s"(
+                            self.sc_folder, "_ph0/hcpFe.phsave")
+                        
                         tmp_list = os.listdir(tmp_folder)
                         dynmat = 0
                         for tmp in tmp_list:

@@ -230,7 +230,7 @@ def make_sbatch_files(prefix, pressure_range, scfph, run_type):
 # export OMP_NUM_THREADS = 2
 # aprun - n 4 pw.x - in scf.in > scf.out
 
-    job_text = "#!/bin/sh\n"
+    job_text = "#!/bin/bash\n"
     job_text += "#PBS -j oe\n"
     job_text += "#PBS -l nodes=12:ppn=32:xe\n"
     job_text += "#PBS -q normal\n"
