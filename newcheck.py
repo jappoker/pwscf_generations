@@ -6,10 +6,15 @@ import sys
 from generator import tmcolors
 from typing import List
 
-T_range = [300, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000]
+# T_range = [300, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000]
+
+T_range = [8000]
 # T_range = [300, 1000, 2000, 3000, 4000]
 P_range = [0, 50, 100, 150, 200, 250, 300, 320, 340, 360, 380, 400,
            500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500]
+
+scratch_folder = "/scratch/sciteam/zhuang1"
+this_scratch = "epaw1"
 
 class color:
     def __init__(self,content):
@@ -59,6 +64,7 @@ class check_folder:
         self.vc_file = self.get_vc_file
         self.scf_file = self.get_scf_file
         self.ph_folder = self.get_ph_folder
+        self.tmp_folder = "%s/%s/%s"%(scratch_folder,this_scratch,self.ph_folder)
 
     
     @property
@@ -242,7 +248,7 @@ class check_folder:
                     if filesize == 0:
                         full = "dyn %s" % color("%2.0f"%switch).blue
                         tmp_folder = os.path.join(
-                            self.ph_folder, "tmp/_ph0/hcpFe.phsave")
+                            self.tmp_folder, "/_ph0/hcpFe.phsave")
                         tmp_list = os.listdir(tmp_folder)
                         dynmat = 0
                         for tmp in tmp_list:
