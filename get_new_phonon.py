@@ -177,6 +177,7 @@ class scfph:
         phonon +="iverbosity=1,\n"
         phonon +="epsil=.false.,\n"
         phonon +="recover=.true.,\n"
+        phonon += "wf_collect=.true.\n"
         phonon +="fildyn='dyn',\n"
         phonon +="amass(1)=55.845,\n"
         phonon += "outdir='%s',\n"%self.scratch_dir
@@ -318,13 +319,13 @@ def main():
                 now = scfph(T, P)
                 anpaiyixia(now)
 
-        types = ["scf", "ph"]
-        for run_type in types:
-            make_sbatch(now, run_type)
+        # types = ["scf", "ph"]
+        # for run_type in types:
+        #     make_sbatch(now, run_type)
 
-        types_sh = ["q2r", "matdyn"]
-        for type_sh in types_sh:
-            make_sh(now, type_sh)
+        # types_sh = ["q2r", "matdyn"]
+        # for type_sh in types_sh:
+        #     make_sh(now, type_sh)
 
 
 if __name__ == "__main__":
